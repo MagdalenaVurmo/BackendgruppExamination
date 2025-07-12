@@ -1,0 +1,10 @@
+{"id":2,"name":"Cappuccino","price":34,"description":"Espresso med varm mjölk och ett skumtäcke.","_id":"6deaWRN948SeEwok"}
+{"id":6,"name":"Flat White","price":35,"description":"Silkeslen mjölkkaffe med kraftig kaffesmak.","_id":"8N9yowUgLJ0snBat"}
+{"id":7,"name":"Mocha","price":38,"description":"Latte med choklad och vispad grädde.","_id":"CBeoaexjq1qR0j0h"}
+{"id":1,"name":"Espresso","price":28,"description":"En liten men stark kaffe med intensiv smak.","_id":"CGezp6CwL4v4vJZu"}
+{"id":3,"name":"Latte","price":36,"description":"Mild kaffe med mycket varm mjölk.","_id":"LqOMHVdBAE7wVKf4"}
+{"id":5,"name":"Macchiato","price":32,"description":"Espresso med en liten skvätt mjölkskum.","_id":"TZrHpnJRRqtDVwPc"}
+{"id":4,"name":"Americano","price":30,"description":"Espresso utspädd med hett vatten.","_id":"hQDWRoCNk21NxyiZ"}
+{"id":9,"name":"Bryggkaffe","price":26,"description":"Klassiskt svenskt bryggkaffe – enkelt och gott.","_id":"oYhR60bnG9MTGokE"}
+{"id":10,"name":"Cold Brew","price":37,"description":"Kallbryggd under flera timmar för rund smak.","_id":"v95A6Ctm6sJ6f20b"}
+{"id":8,"name":"Iskaffe","price":33,"description":"Kallbryggt kaffe serverat med is.","_id":"yUJyrv3vyvZMFL0a"}
