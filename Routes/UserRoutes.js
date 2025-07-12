@@ -8,7 +8,7 @@ const router = Router();
 
 /**
  * @swagger
- * /users/signup:
+ * /user/signup:
  *   post:
  *     summary: Skapa en ny användare
  *     tags: [Användare]
@@ -28,7 +28,7 @@ router.post("/signup", validateMiddleware(userSchema), addUser);
 
 /**
  * @swagger
- * /users/signin:
+ * /user/signin:
  *   post:
  *     summary: Logga in användare och få JWT-token
  *     tags: [Användare]

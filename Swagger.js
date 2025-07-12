@@ -1,5 +1,5 @@
 import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from 'swagger-ui-express'
+import swaggerUi from 'swagger-ui-express';
 
 const swaggerDefinition = {
   openapi: "3.0.0",
@@ -10,7 +10,7 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://localhost:3030/api-docs/#/',
+      url: 'http://localhost:3030/docs',
       description: "Lokal utvecklingsserver",
     },
   ],
