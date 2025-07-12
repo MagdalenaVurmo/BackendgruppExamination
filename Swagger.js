@@ -41,32 +41,33 @@ const swaggerDefinition = {
           img: { type: "string", example: "https://example.com/logo.png" },
         },
       },
+      OrderItem: {
+        type: "object",
+        properties: {
+          productId: { type: "number", example: 1 },
+          name: { type: "string", example: "Latte" },
+          quantity: { type: "number", example: 2 },
+          price: { type: "number", example: 30 },
+          total: { type: "number", example: 60 },
+        },
+      },
       OrderResponse: {
         type: "object",
         properties: {
           success: { type: "boolean", example: true },
-          message: { type: "string", example: "Orden har skapats!" },
+          message: { type: "string", example: "Ordern har skapats!" },
           data: {
             type: "object",
             properties: {
-              userId: { type: "string" },
-              orderNr: { type: "string" },
+              userId: { type: "string", example: "abc123" },
+              orderNr: { type: "string", example: "ORD123" },
               orderDate: { type: "string", format: "date-time" },
               ETA: { type: "string", format: "date-time" },
-              delivered: { type: "boolean" },
-              totalPrice: { type: "number" },
+              delivered: { type: "boolean", example: false },
+              totalPrice: { type: "number", example: 120 },
               totalOrder: {
                 type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    productId: { type: "number" },
-                    name: { type: "string" },
-                    quantity: { type: "number" },
-                    price: { type: "number" },
-                    total: { type: "number" },
-                  },
-                },
+                items: { $ref: "#/components/schemas/OrderItem" },
               },
             },
           },
@@ -79,9 +80,9 @@ const swaggerDefinition = {
           message: { type: "string" },
           data: {
             type: "array",
-            items: { $ref: "#/components/schemas/OrderResponse" }
-          }
-        }
+            items: { $ref: "#/components/schemas/OrderResponse" },
+          },
+        },
       },
       SignupUser: {
         type: "object",
@@ -95,8 +96,8 @@ const swaggerDefinition = {
         type: "object",
         required: ["email", "password"],
         properties: {
-          email: { type: "string", format: "email" },
-          password: { type: "string" },
+          email: { type: "string", format: "email", example: "test@example.com" },
+          password: { type: "string", example: "123456" },
         },
       },
       SigninResponse: {
@@ -123,14 +124,16 @@ const swaggerDefinition = {
       },
       OrderRequest: {
         type: "object",
+        required: ["totalOrder"],
         properties: {
           totalOrder: {
             type: "array",
             items: {
               type: "object",
+              required: ["id", "quantity"],
               properties: {
-                id: { type: "number" },
-                quantity: { type: "number" },
+                id: { type: "number", example: 1 },
+                quantity: { type: "number", example: 2 },
               },
             },
           },
@@ -174,7 +177,7 @@ const swaggerDefinition = {
         },
       },
     },
-    "/user/signup": {
+    "/users/signup": {
       post: {
         tags: ["User"],
         summary: "Registrera en ny användare",
@@ -194,7 +197,7 @@ const swaggerDefinition = {
         },
       },
     },
-    "/user/signin": {
+    "/users/signin": {
       post: {
         tags: ["User"],
         summary: "Logga in användare",
@@ -215,6 +218,7 @@ const swaggerDefinition = {
               },
             },
           },
+          401: { description: "Fel e-post eller lösenord" },
         },
       },
     },
@@ -273,6 +277,7 @@ const swaggerDefinition = {
             in: "path",
             required: true,
             schema: { type: "string" },
+            description: "Det unika ordernumret",
           },
         ],
         responses: {
@@ -294,7 +299,7 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  apis: [],
+  apis: [], // vi använder bara det inbyggda objektet, inte @swagger-kommentarer här
 };
 
 export const swaggerDocs = swaggerJSDoc(options);
