@@ -1,5 +1,4 @@
 import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUi from 'swagger-ui-express';
 
 const swaggerDefinition = {
   openapi: "3.0.0",
@@ -10,7 +9,7 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://localhost:3030/docs',
+      url: 'http://localhost:3030', // Viktigt att inte ha /docs här!
       description: "Lokal utvecklingsserver",
     },
   ],
@@ -178,7 +177,7 @@ const swaggerDefinition = {
         },
       },
     },
-    "/users/signup": {
+    "/user/signup": {
       post: {
         tags: ["User"],
         summary: "Registrera en ny användare",
@@ -198,7 +197,7 @@ const swaggerDefinition = {
         },
       },
     },
-    "/users/signin": {
+    "/user/signin": {
       post: {
         tags: ["User"],
         summary: "Logga in användare",
@@ -300,7 +299,7 @@ const swaggerDefinition = {
 
 const options = {
   definition: swaggerDefinition,
-  apis: [], // vi använder bara det inbyggda objektet, inte @swagger-kommentarer här
+  apis: [],
 };
 
 export const swaggerDocs = swaggerJSDoc(options);
