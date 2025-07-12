@@ -3,25 +3,26 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 import { seedDatabase } from "./Models/ProductModel.js";
 import { seedCompanyInfo } from "./Models/InfoModel.js";
-import { swaggerDocs } from "./Config/Swagger.js";
+import { swaggerDocs } from "./swagger.js";
 import productRoute from "./Routes/ProductRoutes.js";
 import orderRoute from "./Routes/OrderRoutes.js";
 import userRoute from "./Routes/UserRoutes.js";
 import infoRoute from "./Routes/InfoRoutes.js";
 
 
-dotenv.config(); 
-const app = express(); 
-app.use(express.json()); 
 
-const port = process.env.PORT || 3030; 
+dotenv.config();
+const app = express();
+app.use(express.json());
 
-app.use("/products", productRoute); 
+const port = process.env.PORT || 3030;
+
+app.use("/products", productRoute);
 app.use("/orders", orderRoute);
 app.use("/user", userRoute);
 app.use("/info", infoRoute);
 
-app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs)); 
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 const startServer = async () => {
   try {
