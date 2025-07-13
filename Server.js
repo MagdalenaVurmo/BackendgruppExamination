@@ -3,7 +3,7 @@ import express from "express";
 import swaggerUi from "swagger-ui-express";
 import { seedDatabase } from "./Models/ProductModel.js";
 import { seedCompanyInfo } from "./Models/InfoModel.js";
-import { swaggerDocs } from "./Swagger.js"; // OBS! rätt filnamn
+import { swaggerDocs } from "./Swagger.js";
 import productRoute from "./Routes/ProductRoutes.js";
 import orderRoute from "./Routes/OrderRoutes.js";
 import userRoute from "./Routes/UserRoutes.js";
@@ -14,7 +14,6 @@ import open from "open"
 dotenv.config();
 const app = express();
 app.use(express.json());
-
 const port = process.env.PORT || 3030;
 
 app.use("/products", productRoute);
