@@ -2,9 +2,11 @@ import { userSchema } from "../Middleware/Validation.js";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { createUser, fetchUserByEmail } from "../Models/UserModel.js";
+import { createUser, fetchUserByEmail } from "../Models/UserModel.js"
 
-// Skapa användare
+
+
+// skapa user
 export async function addUser(req, res) {
   try {
     const existingUser = await fetchUserByEmail(req.body.email);
@@ -24,41 +26,41 @@ export async function addUser(req, res) {
     };
 
     const savedUser = await createUser(user);
-    res.status(201).json(savedUser);
-  } catch (err) {
-    res.status(500).json({ error: "Kunde inte spara användare" });
-  }
 
-  // skapar token vid registrering
-  const token = jwt.sign(
-    { id: savedUser.id, email: savedUser.email },
-    process.env.JWT_SECRET || "yourSecretKey",
-    { expiresIn: "3h" }
-  );
+    // Skapa token
+    const token = jwt.sign(
+      { id: savedUser.id, email: savedUser.email },
+      process.env.JWT_SECRET || "yourSecretKey",
+      { expiresIn: "3h" }
+    );
 
-  res.status(201).json({
-    success: true,
-    message: "Användaren skapades",
-    data: {
-      user: {
-        id: savedUser.id,
-        email: savedUser.email,
+    // Ta bort lösenord från svaret
+    delete savedUser.password;
+
+    // Skicka tillbaka token + användardata
+    return res.status(201).json({
+      success: true,
+      message: "Användaren skapades",
+      data: {
+        user: {
+          id: savedUser.id,
+          email: savedUser.email,
+        },
+        accessToken: token,
+        expiresIn: "3h",
       },
-      accessToken: token,
-      expiresIn: "3h",
-    },
-  });
+    });
 
-
-
-
-
-
+  } catch (err) {
+    console.error("Registreringsfel:", err);
+    return res.status(500).json({ error: "Kunde inte spara användare" });
+  }
 }
 
 
-// Logga in användare
-export const loginUser = async (req, res) => {
+
+// login user
+export async function loginUser(req, res) {
   const { email, password } = req.body;
   try {
     const user = await fetchUserByEmail(email);
@@ -82,7 +84,6 @@ export const loginUser = async (req, res) => {
       data: {
         user: {
           id: user.id,
-          username: user.name || "",
           email: user.email,
         },
         accessToken: token,
@@ -93,4 +94,4 @@ export const loginUser = async (req, res) => {
     console.error("Inloggningsfel: ", error);
     res.status(500).json({ error: "Något gick fel vid inloggningen." });
   }
-};
+}
