@@ -1,5 +1,4 @@
 import joi from "joi";
-// Middleware for validation using Joi
 
 export const userSchema = joi.object({
   password: joi.string().min(6).required().messages({
@@ -41,4 +40,27 @@ export const orderIdSchema = joi.object({
 });
 
 
+// Valideringsschema för signup
+export const signupSchema = joi.object({
+  email: joi.string().email().required(),
+  password: joi.string().min(6).required(),
+});
 
+// Valideringsschema för signin (login)
+export const signinSchema = joi.object({
+  email: joi.string().email().required(),
+  password: joi.string().required(),
+});
+
+// Middleware för att köra validering
+export const validate = (schema) => {
+  return (req, res, next) => {
+    const { error } = schema.validate(req.body);
+    if (error) {
+      return res.status(400).json({
+        error: error.details.map((detail) => detail.message).join(", "),
+      });
+    }
+    next();
+  };
+};

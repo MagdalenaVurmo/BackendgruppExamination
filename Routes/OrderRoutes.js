@@ -1,8 +1,7 @@
 import { Router } from "express";
 import { addOrder, getOrderById, getOrderHistory } from "../controllers/orderController.js";
 import authMiddleware from "../Middleware/auth.js";
-import validateMiddleware from "../Middleware/Validate.js"
-import { orderSchema, orderIdSchema } from "../Middleware/Validation.js"
+import { validate, orderSchema, orderIdSchema } from "../Middleware/Validation.js";
 
 const router = Router();
 
@@ -28,7 +27,7 @@ const router = Router();
  *       401:
  *         description: Saknar eller ogiltig token
  */
-router.post("/order", authMiddleware, validateMiddleware(orderSchema), addOrder);
+router.post("/order", authMiddleware, validate(orderSchema), addOrder);
 
 /**
  * @swagger
@@ -90,6 +89,6 @@ router.get("/history", authMiddleware, getOrderHistory);
  *       404:
  *         description: Order hittades inte
  */
-router.get("/:orderNr", authMiddleware, validateMiddleware(orderIdSchema, "params"), getOrderById);
+router.get("/:orderNr", authMiddleware, validate(orderIdSchema, "params"), getOrderById);
 
 export default router;

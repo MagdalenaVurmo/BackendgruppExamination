@@ -38,6 +38,7 @@ const router = Router()
  */
 
 // GET /info
-router.get('/', getCompanyInfo)
+router.get('/', getCompanyInfo);
+
 
 export default router;

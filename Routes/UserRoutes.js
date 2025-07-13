@@ -1,8 +1,6 @@
 import { Router } from "express";
 import { addUser, loginUser } from "../controllers/userController.js";
-import validateMiddleware from "../Middleware/Validate.js"
-import { userSchema } from "../Middleware/Validation.js"
-
+import { validate, signupSchema, signinSchema } from "../Middleware/Validation.js";
 
 const router = Router();
 
@@ -24,7 +22,7 @@ const router = Router();
  *       400:
  *         description: Ogiltiga indata
  */
-router.post("/signup", validateMiddleware(userSchema), addUser);
+router.post("/signup", validate(signupSchema), addUser);
 
 /**
  * @swagger
@@ -44,6 +42,6 @@ router.post("/signup", validateMiddleware(userSchema), addUser);
  *       401:
  *         description: Felaktiga inloggningsuppgifter
  */
-router.post("/signin", validateMiddleware(userSchema), loginUser);
+router.post("/signin", validate(signinSchema), loginUser);
 
 export default router;

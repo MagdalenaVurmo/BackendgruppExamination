@@ -8,19 +8,22 @@ import productRoute from "./Routes/ProductRoutes.js";
 import orderRoute from "./Routes/OrderRoutes.js";
 import userRoute from "./Routes/UserRoutes.js";
 import infoRoute from "./Routes/InfoRoutes.js";
-import open from "open"
-import fs from "fs";
-
+import cors from "cors";
 
 dotenv.config();
+
 const app = express();
+
+app.use(cors())
 app.use(express.json());
+
 const port = process.env.PORT || 3030;
 
 app.use("/products", productRoute);
 app.use("/orders", orderRoute);
 app.use("/user", userRoute);
-app.use("/", infoRoute);
+app.use("/signin", userRoute)
+app.use("/info", infoRoute);
 
 // Swagger UI på http://localhost:3030/docs
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
@@ -34,18 +37,7 @@ const startServer = async () => {
 
     app.listen(port, () => {
       console.log(`Servern körs på http://localhost:${port}`);
-
-      // denna fil skapas endast första gången servern startas.
-      const flagFile = ".swagger-opened"
-
-      // här använder jag en if-sats som kollar ifall "flagfile" finns
-      // om filen finns så öppnas Swagger UI bara när servern startas.
-      // detta är för att förhindra att Swagger UI öppnas varje gång koden ändras och nodemon körs.
-      if (!fs.existsSync(flagFile)) {
-        open(`http://localhost:${port}/docs`)
-        fs.writeFileSync(flagFile, "opened")
-      }
-
+      console.log(`Swagger UI finns på http://localhost:${port}/docs`)
     });
   } catch (error) {
     console.error("Fel vid seeding av databasen:", error);

@@ -6,9 +6,9 @@ import { createUser, fetchUserByEmail } from "../Models/UserModel.js"
 
 
 
-// skapa user
 export async function addUser(req, res) {
   try {
+    // Kolla om användare redan finns
     const existingUser = await fetchUserByEmail(req.body.email);
     if (existingUser) {
       return res
@@ -16,28 +16,36 @@ export async function addUser(req, res) {
         .json({ error: "Den här e-postadress finns redan registrerad" });
     }
 
+    // Hasha lösenordet
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
+    // Skapa användarobjekt
     const user = {
       id: uuidv4(),
-      ...req.body,
+      email: req.body.email,
       password: hashedPassword,
       createdAt: new Date().toISOString(),
     };
 
+    // Spara användaren i databasen
     const savedUser = await createUser(user);
 
-    // Skapa token
+    // Felsäkring: Kontrollera att användaren sparades korrekt
+    if (!savedUser || !savedUser.id || !savedUser.email) {
+      throw new Error("createUser returnerade inte en komplett användare");
+    }
+
+    // Skapa JWT-token
     const token = jwt.sign(
       { id: savedUser.id, email: savedUser.email },
       process.env.JWT_SECRET || "yourSecretKey",
       { expiresIn: "3h" }
     );
 
-    // Ta bort lösenord från svaret
+    // Ta bort lösenord från svaret (om det råkar vara kvar)
     delete savedUser.password;
 
-    // Skicka tillbaka token + användardata
+    // Skicka tillbaka svar
     return res.status(201).json({
       success: true,
       message: "Användaren skapades",
@@ -50,6 +58,7 @@ export async function addUser(req, res) {
         expiresIn: "3h",
       },
     });
+
 
   } catch (err) {
     console.error("Registreringsfel:", err);
@@ -72,6 +81,27 @@ export async function loginUser(req, res) {
     if (!isMatch)
       return res.status(401).json({ error: "Ogiltig e-post eller lösenord" });
 
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET || "yourSecretKey",
+      { expiresIn: "3h" }
+    );
+
+    delete user.password;
+
+    return res.status(200).json({
+      success: true,
+      message: "Inloggning lyckades",
+      data: {
+        user: {
+          id: user.id,
+          email: user.email,
+        },
+        accessToken: token,
+        expiresIn: "3h",
+      },
+    });
 
   } catch (error) {
     console.error("Inloggningsfel: ", error);

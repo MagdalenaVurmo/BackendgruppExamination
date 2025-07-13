@@ -1,13 +1,25 @@
-import Datastore from '@seald-io/nedb'; // uppdaterat till nyare version av nedb för undvika errors vid server start
+import { usersDB } from "../db/db.js";
 
-const usersDB = new Datastore({ filename: './db/users.db', autoload: true });
-
-//Skapa användare
-export const createUser = async (user) => {
-    return await usersDB.insert(user)
+// Skapa användare
+export function createUser(user) {
+    return new Promise((resolve, reject) => {
+        usersDB.insert(user, (err, newDoc) => {
+            if (err) {
+                console.error("Fel vid createUser:", err);
+                return reject(err);
+            }
+            resolve(newDoc);
+        });
+    });
 }
 
-//Logga in användare eller jämföra användare vid skapandet av ny
+// Hämta användare via e-post
 export async function fetchUserByEmail(email) {
-    return await usersDB.findOne({ email })
+    try {
+        const user = await usersDB.findOne({ email });
+        return user;
+    } catch (err) {
+        console.error("Fel vid fetchUserByEmail:", err);
+        throw err;
+    }
 }
