@@ -1,5 +1,5 @@
 import fs from "fs/promises";
-import Datastore from "nedb-promises";
+import Datastore from '@seald-io/nedb'; // uppdaterat till nyare version av nedb för undvika errors vid server start
 import path from "path";
 import { fileURLToPath } from "url";
 

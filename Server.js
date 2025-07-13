@@ -9,6 +9,7 @@ import orderRoute from "./Routes/OrderRoutes.js";
 import userRoute from "./Routes/UserRoutes.js";
 import infoRoute from "./Routes/InfoRoutes.js";
 import open from "open"
+import fs from "fs";
 
 
 dotenv.config();
@@ -30,9 +31,19 @@ const startServer = async () => {
     await seedCompanyInfo();
     console.log("Databaserna är seedade, startar servern...");
 
+
     app.listen(port, () => {
       console.log(`Servern körs på http://localhost:${port}`);
-      open(`http://localhost:${port}/docs`);
+
+      // filen skapas när swagger UI öppnats.
+      const flagFile = ".swagger-opened"
+
+      // detta är för att förhindra att Swagger UI öppnas varje gång koden ändras.
+      if (!fs.existsSync(flagFile)) {
+        open(`http://localhost:${port}/docs`)
+        fs.writeFileSync(flagFile, "opened")
+      }
+
     });
   } catch (error) {
     console.error("Fel vid seeding av databasen:", error);

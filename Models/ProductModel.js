@@ -1,5 +1,5 @@
 // funktioner för att hantera produktdata
-import Datastore from "nedb-promise";
+import Datastore from '@seald-io/nedb'; // uppdaterat till nyare version av nedb för undvika errors vid server start
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
