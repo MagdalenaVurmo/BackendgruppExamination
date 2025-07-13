@@ -72,24 +72,7 @@ export async function loginUser(req, res) {
     if (!isMatch)
       return res.status(401).json({ error: "Ogiltig e-post eller lösenord" });
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email },
-      process.env.JWT_SECRET || "yourSecretKey",
-      { expiresIn: "3h" }
-    );
 
-    res.json({
-      success: true,
-      message: "Inloggningen lyckades",
-      data: {
-        user: {
-          id: user.id,
-          email: user.email,
-        },
-        accessToken: token,
-        expiresIn: "3h",
-      },
-    });
   } catch (error) {
     console.error("Inloggningsfel: ", error);
     res.status(500).json({ error: "Något gick fel vid inloggningen." });

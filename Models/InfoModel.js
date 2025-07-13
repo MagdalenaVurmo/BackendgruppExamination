@@ -6,12 +6,12 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // Define the path to the JSON file and the database
-const jsonFilePath = path.join(__dirname, "..", "db", "companyInfo.json");
+const jsonFilePath = path.join(__dirname, "..", "db", "companyInfo.db");
 const companyDb = new Datastore({
   filename: path.join(__dirname, "..", "db", "companyInfo.db"),
   autoload: true,
 });
- // Seed the company info database with data from JSON file if empty
+// Seed the company info database with data from JSON file if empty
 
 export const seedCompanyInfo = async () => {
   const existing = await companyDb.find({});
