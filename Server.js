@@ -8,6 +8,7 @@ import productRoute from "./Routes/ProductRoutes.js";
 import orderRoute from "./Routes/OrderRoutes.js";
 import userRoute from "./Routes/UserRoutes.js";
 import infoRoute from "./Routes/InfoRoutes.js";
+import open from "open"
 
 
 dotenv.config();
@@ -32,6 +33,7 @@ const startServer = async () => {
 
     app.listen(port, () => {
       console.log(`Servern körs på http://localhost:${port}`);
+      open(`http://localhost:${port}/docs`);
     });
   } catch (error) {
     console.error("Fel vid seeding av databasen:", error);
