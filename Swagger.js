@@ -9,7 +9,7 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://localhost:3030', // Viktigt att inte ha /docs här!
+      url: 'http://localhost:3030/docs',
       description: "Lokal utvecklingsserver",
     },
   ],
