@@ -35,10 +35,12 @@ const startServer = async () => {
     app.listen(port, () => {
       console.log(`Servern körs på http://localhost:${port}`);
 
-      // filen skapas när swagger UI öppnats.
+      // denna fil skapas endast första gången servern startas.
       const flagFile = ".swagger-opened"
 
-      // detta är för att förhindra att Swagger UI öppnas varje gång koden ändras.
+      // här använder jag en if-sats som kollar ifall "flagfile" finns
+      // om filen finns så öppnas Swagger UI bara när servern startas.
+      // detta är för att förhindra att Swagger UI öppnas varje gång koden ändras och nodemon körs.
       if (!fs.existsSync(flagFile)) {
         open(`http://localhost:${port}/docs`)
         fs.writeFileSync(flagFile, "opened")
