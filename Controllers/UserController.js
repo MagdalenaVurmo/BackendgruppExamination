@@ -28,7 +28,34 @@ export async function addUser(req, res) {
   } catch (err) {
     res.status(500).json({ error: "Kunde inte spara användare" });
   }
+
+  // skapar token vid registrering
+  const token = jwt.sign(
+    { id: savedUser.id, email: savedUser.email },
+    process.env.JWT_SECRET || "yourSecretKey",
+    { expiresIn: "3h" }
+  );
+
+  res.status(201).json({
+    success: true,
+    message: "Användaren skapades",
+    data: {
+      user: {
+        id: savedUser.id,
+        email: savedUser.email,
+      },
+      accessToken: token,
+      expiresIn: "3h",
+    },
+  });
+
+
+
+
+
+
 }
+
 
 // Logga in användare
 export const loginUser = async (req, res) => {
