@@ -25,6 +25,7 @@ app.use("/signin", userRoute)
 app.use("/info", infoRoute);
 
 const hej = "hej"
+const hejdå = "hejdå"
 
 // Swagger UI på http://localhost:3030/docs
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
