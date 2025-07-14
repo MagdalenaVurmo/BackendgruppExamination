@@ -10,6 +10,8 @@ import userRoute from "./Routes/UserRoutes.js";
 import infoRoute from "./Routes/InfoRoutes.js";
 import cors from "cors";
 
+const Hej = "Hej från Magalena";
+
 dotenv.config();
 
 const app = express();
