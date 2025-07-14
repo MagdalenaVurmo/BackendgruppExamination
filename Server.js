@@ -13,7 +13,6 @@ import cors from "cors";
 dotenv.config();
 
 const app = express();
-
 app.use(cors())
 app.use(express.json());
 
@@ -24,6 +23,8 @@ app.use("/orders", orderRoute);
 app.use("/user", userRoute);
 app.use("/signin", userRoute)
 app.use("/info", infoRoute);
+
+const hej = "hej"
 
 // Swagger UI på http://localhost:3030/docs
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
