@@ -10,7 +10,6 @@ import userRoute from "./Routes/UserRoutes.js";
 import infoRoute from "./Routes/InfoRoutes.js";
 import cors from "cors";
 
-const Hej = "Hej från Magalena";
 
 dotenv.config();
 
@@ -26,7 +25,6 @@ app.use("/user", userRoute);
 app.use("/signin", userRoute)
 app.use("/info", infoRoute);
 
-const hej = "hej"
 
 // Swagger UI på http://localhost:3030/docs
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
