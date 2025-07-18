@@ -27,7 +27,7 @@ export const seedDatabase = async () => {
 
       console.log("seed-data importerad: ", insertedDocs);
     }
-  } catch (error) {
+  } catch (error) { 
     console.error("FEL!", error);
   }
 };
