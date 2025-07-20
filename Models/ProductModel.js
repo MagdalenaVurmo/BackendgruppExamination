@@ -12,33 +12,33 @@ const productsDb = new Datastore({
   autoload: true,
 });
 
-//Seeda databas från json-filen
-export const seedDatabase = async () => {
-  try {
-    const count = await productsDb.count({});
-    console.log("Antal produkter före seeding:", count);
 
-    if (count === 0) {
-      const seedFile = path.join(__dirname, "..", "db", "Products.json");
-      const data = await fs.readFile(seedFile, "utf8");
-      const { coffeeMenu } = JSON.parse(data);
+export const seedDatabase = async () => { // Exporterar en asynkron funktion med namnet seedDatabase.
+  try { //Startar ett try-block för att hantera eventuella fel under processen.
+    const count = await productsDb.count({});  //Räknar hur många produkter som redan finns i databasen productsDb. 
+    console.log("Antal produkter före seeding:", count); // count({}) räknar alla dokument.
 
-      const insertedDocs = await productsDb.insert(coffeeMenu);
+    if (count === 0) { // Kontrollerar om databasen är helt tom. Om det redan finns produkter, görs inget.
+      const seedFile = path.join(__dirname, "..", "db", "Products.json"); //Skapar en filväg till Products.json, som innehåller de produkter som ska laddas in.
+      const data = await fs.readFile(seedFile, "utf8");   //Läser in hela JSON-filen som en textsträng.
+      const { coffeeMenu } = JSON.parse(data); // Parsar JSON-filen och hämtar coffeeMenu-arrayen.
 
-      console.log("seed-data importerad: ", insertedDocs);
+      const insertedDocs = await productsDb.insert(coffeeMenu); // Lägger in produkterna i databasen.
+
+      console.log("seed-data importerad: ", insertedDocs); // Consolen skriver ut de importerade produkterna.
     }
-  } catch (error) { 
-    console.error("FEL!", error);
+  } catch (error) {  // Fångar upp eventuella fel som kan uppstå under processen.
+    console.error("FEL!", error); // Skriver ut felmeddelandet till konsolen.
   }
 };
 
-//Hämta meny
-export const fetchMenu = async () => {
-  try {
-    const products = await productsDb.find({});
-    const sortedProducts = products.sort((a, b) => a.id - b.id);
-    return sortedProducts;
-  } catch (error) {
-    throw new Error("Fel vid hämtning av produkter: " + error.message);
+
+export const fetchMenu = async () => { // Den här funktionen hämtar alla produkter från databasen.
+  try { //Startar ett try-block för att hantera eventuella fel under processen.
+    const products = await productsDb.find({}); // Hämtar alla produkter från databasen.
+    const sortedProducts = products.sort((a, b) => a.id - b.id); // Sorterar produkterna baserat på deras id i stigande ordning.
+    return sortedProducts; // och här returneras de sorterade produkterna.
+  } catch (error) { // Om något går fel vid hämtning av produkterna, fångas felet här.
+    throw new Error("Fel vid hämtning av produkter: " + error.message); // Skickar tillbaka ett felmeddelande till den som anropar funktionen.
   }
 };
