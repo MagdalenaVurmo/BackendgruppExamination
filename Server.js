@@ -10,7 +10,9 @@ import userRoute from "./Routes/UserRoutes.js";
 import infoRoute from "./Routes/InfoRoutes.js";
 import cors from "cors";
 
+
 dotenv.config();                  // Laddar in .env-filen så att.env och PORT finns tillgängliga          
+
 
 const app = express();            // Skapar en ny Express-applikation.
 
@@ -19,11 +21,13 @@ app.use(express.json());          //Lägger till en middleware som gör att Expr
 
 const port = process.env.PORT || 3030;   // Hämtar portnumret från .env.
 
+
 app.use("/products", productRoute);  // Använder productRoute för alla rutter som börjar med /products.
 app.use("/orders", orderRoute); // Använder orderRoute för alla rutter som börjar med /orders.
 app.use("/user", userRoute); // Använder userRoute för alla rutter som börjar med /user.
 app.use("/signin", userRoute) ; // Använder userRoute för alla rutter som börjar med /signin.
 app.use("/info", infoRoute); // Rutter för företagsinfo.
+
 
 // Swagger UI på http://localhost:3030/docs
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
