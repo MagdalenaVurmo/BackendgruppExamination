@@ -39,6 +39,7 @@ export async function addUser(req, res) { // Denna funktion skapar en ny använd
       throw new Error("createUser returnerade inte en komplett användare"); // 
     }
 
+
     // Skapa JWT-token 
     // Token används för att verifiera att användaren är den som de säger att de är
     const token = jwt.sign( // Här skapas en JWT-token som används för att autentisera användaren.
@@ -52,6 +53,10 @@ export async function addUser(req, res) { // Denna funktion skapar en ny använd
 
     delete savedUser.password; // Tar bort lösenordet från det sparade användarobjektet innan det skickas tillbaka till klienten.
 
+    // Ta bort lösenord från svaret (om det råkar vara kvar)
+    delete savedUser.password;
+
+
     // Skicka tillbaka svar
     return res.status(201).json({ // Skickar tillbaka ett svar med status 201.
       // 201 betyder att resursen (användaren) skapades utan problem.
@@ -63,8 +68,11 @@ export async function addUser(req, res) { // Denna funktion skapar en ny använd
           id: savedUser.id, // Användarens unika id.
           email: savedUser.email, // Användarens e-postadress.
         },
+
         accessToken: token, // JWT-token som används för att autentisera användaren.
         expiresIn: "3h", // Token kommer att vara giltig i 3 timmar.
+=======
+
       },
     });
 

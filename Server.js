@@ -11,7 +11,7 @@ import infoRoute from "./Routes/InfoRoutes.js";
 import cors from "cors";
 
 
-dotenv.config();                  // Laddar in .env-filen så att.env och PORT finns tillgängliga          
+dotenv.config();                  // Laddar in .env-filen så att.env och PORT finns tillgängliga
 
 
 const app = express();            // Skapar en ny Express-applikation.
@@ -25,7 +25,7 @@ const port = process.env.PORT || 3030;   // Hämtar portnumret från .env.
 app.use("/products", productRoute);  // Använder productRoute för alla rutter som börjar med /products.
 app.use("/orders", orderRoute); // Använder orderRoute för alla rutter som börjar med /orders.
 app.use("/user", userRoute); // Använder userRoute för alla rutter som börjar med /user.
-app.use("/signin", userRoute) ; // Använder userRoute för alla rutter som börjar med /signin.
+app.use("/signin", userRoute); // Använder userRoute för alla rutter som börjar med /signin.
 app.use("/info", infoRoute); // Rutter för företagsinfo.
 
 
@@ -35,15 +35,23 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 const startServer = async () => { // Denna funktion som starta servern och seed:a databaserna.
+
   try { 
     await seedDatabase();  
     await seedCompanyInfo(); 
     console.log("Databaserna är seedade, startar servern..."); 
          
+=======
+  try {
+    await seedDatabase();
+    await seedCompanyInfo();
+    console.log("Databaserna är seedade, startar servern...");
 
 
 
-        // Startar servern och lyssnar på den valda porten. Skriver ut adressen till konsolen.
+
+
+    // Startar servern och lyssnar på den valda porten. Skriver ut adressen till konsolen.
     app.listen(port, () => {
       console.log(`Servern körs på http://localhost:${port}`);
       console.log(`Swagger UI finns på http://localhost:${port}/docs`)
@@ -51,6 +59,6 @@ const startServer = async () => { // Denna funktion som starta servern och seed:
   } catch (error) {    // Om det blir fel vid seeding då fångas det här och skrivs ut.
     console.error("Fel vid seeding av databasen:", error);
   }
-}; 
+};
 
 startServer();
