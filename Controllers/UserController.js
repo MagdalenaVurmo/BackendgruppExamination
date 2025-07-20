@@ -34,16 +34,6 @@ export async function addUser(req, res) {
       throw new Error("createUser returnerade inte en komplett användare");
     }
 
-<<<<<<< HEAD
-    /* Skapa JWT-token 
-    const token = jwt.sign(
-      { id: savedUser.id, email: savedUser.email },
-      process.env.JWT_SECRET || "yourSecretKey",
-      { expiresIn: "3h" }
-    );
-*/
-=======
->>>>>>> 20548d0f7272be9768dd95e45c4022d3ba4108c0
     // Ta bort lösenord från svaret (om det råkar vara kvar)
     delete savedUser.password;
 
@@ -56,11 +46,6 @@ export async function addUser(req, res) {
           id: savedUser.id,
           email: savedUser.email,
         },
-<<<<<<< HEAD
-        /*accessToken: token,
-        expiresIn: "3h",*/
-=======
->>>>>>> 20548d0f7272be9768dd95e45c4022d3ba4108c0
       },
     });
 
