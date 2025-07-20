@@ -17,7 +17,7 @@ export const authMiddleware = (req, res, next) => {
     } // Kontrollerar om Authorization-headern finns och börjar med "Bearer ".
     // Om den inte gör det, då returneras ett 401 Unauthorized-fel med ett meddelande om "Ingen eller ogiltig token".
 
-    const token = authHeader.split(" ")[1];
+    const token = authHeader.split(" ")[1]; 
     try { // Startar en try/catch-block för att hantera eventuella fel vid tolkning av token.
         const decoded = jwt.verify(token, process.env.JWT_SECRET || "yourSecretKey"); // Verifierar token med en hemlig nyckel (JWT_SECRET) som är lagrad i miljövariabler eller en standardnyckel.
         

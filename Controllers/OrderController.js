@@ -10,7 +10,7 @@ export const addOrder = async (req, res) => { //
   }
   try {
     const menu = await fetchMenu(); // Hämtar menyn från databasen. Denna meny är en lista med alla produkter som finns att beställa.
-    let totalPrice = 0;
+    let totalPrice = 0; // Här skapas en variabel som ska hålla det totala priset för ordern. Den börjar på 0.
 
     const orderItems = totalOrder.map((item) => { 
       const product = menu.find((prod) => prod.id === item.id); 
@@ -21,7 +21,7 @@ export const addOrder = async (req, res) => { //
       const itemTotal = product.price * quantity; // Här beräknas totalpriset för varje produkt i ordern.
       totalPrice += itemTotal; // Här beräknas det totala priset för ordern genom att summera varje produkts totalpris.
 
-      return { 
+      return { // Här skapas ett objekt för varje produkt i ordern. 
         productId: product.id,      // Produkt id.
         name: product.name,         // Produkt namnet.
         quantity,                   // Här hämtas produktens kvantitet från ordern.
@@ -54,41 +54,43 @@ export const addOrder = async (req, res) => { //
     });
   } catch (error) { // Fångar upp fel vid skapande av order.
     console.error("Fel vid skapande av order: ", error);
-    res.status(500).json({ error: "Kunde inte skapa order." });
+    res.status(500).json({ error: "Kunde inte skapa order." }); // Skickar tillbaka ett felmeddelande till kunden.
   }
 };
 
 //Hämta order genom ID (och token)
 export const getOrderById = async (req, res) => { // Den här hämtar en order och är baserat på orderNumret som skickas in i URL:en.
-  const { orderNr } = req.params;                                           // Hämtar orderNumret
+  const { orderNr } = req.params;          // Hämtar orderNumret
   try {
-    const order = await fetchOrderById(orderNr);                                    // Hämtar ordern från databasen med orderNumret. 
+    const order = await fetchOrderById(orderNr);  // Hämtar ordern från databasen med orderNumret. 
     if (!order) return res.status(404).json({ error: "Ordern kunde inte hittas." }); // Om ordern inte skulle hittas, då returneras 404
     res.status(200).json({ 
-      success: true,                // Säger till att ordern hämtades korrekt. 
-      data: order,                  // Här skickar den tillbaka den hämtade ordern.
+      success: true,        // Säger till att ordern hämtades korrekt. 
+      data: order,      // Här skickar den tillbaka den hämtade ordern.
     });
-  } catch (error) {               // Fångar upp eventuella fel vid hämtning av order.
-    res.status(500).json({ error: "Kunde inte hämta ordern." });
+  } catch (error) {   // Fångar upp eventuella fel vid hämtning av order.
+    res.status(500).json({ error: "Kunde inte hämta ordern." }); // Skickar tillbaka ett felmeddelande
   }
 };
 
 //Hämta orderhistorik för användare
-export const getOrderHistory = async (req, res) => {
+export const getOrderHistory = async (req, res) => { // Den här hämtar alla ordrar för den inloggade användaren.
+  // req: Inkommande request, innehåller info om t.ex. vilka rutter som anropas.
+  // res: Svar som skickas tillbaka till klienten.
   try {
-    // Användarens id från auth-middleware
-    const userId = req.user.id;
+   
+    const userId = req.user.id; // Användarens id från auth-middleware
 
-    // Hämtar ordrar från databasen för den inloggade användaren
-    const orders = await fetchOrderHistory(userId);
+    
+    const orders = await fetchOrderHistory(userId); // Hämtar ordrar från databasen för den inloggade användaren
 
-    res.json({
-      success: true,
-      message: "Hämtning av orderhistorik lyckades.",
-      data: orders,
+    res.json({ // Skickar tillbaka ordrarna som JSON-svar
+      success: true, // Säger till att orderhistoriken hämtades korrekt.
+      message: "Hämtning av orderhistorik lyckades.", // Meddelar att orderhistoriken hämtades.
+      data: orders, // Här skickar den tillbaka den hämtade orderhistoriken.
     });
-  } catch (error) {
-    console.error("Fel vid hämtning av orderhistorik: ", error);
-    res.status(500).json({ error: "Kunde inte hämta orderhistorik." });
+  } catch (error) { // Fångar upp fel vid hämtning av orderhistorik.
+    console.error("Fel vid hämtning av orderhistorik: ", error); //
+    res.status(500).json({ error: "Kunde inte hämta orderhistorik." }); // Skickar tillbaka ett felmeddelande till kunden.
   }
 };

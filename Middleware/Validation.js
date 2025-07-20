@@ -11,7 +11,7 @@ import joi from "joi";
 // och ett lösenord som uppfyller minimikraven.
 
 
-export const userSchema = joi.object({
+export const userSchema = joi.object({ 
   password: joi.string().min(6).required().messages({
     "string.min": "Lösenordet måste vara minst 6 tecken långt.",
     "any.required": "Lösenordet är obligatoriskt.",

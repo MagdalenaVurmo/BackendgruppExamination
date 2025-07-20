@@ -16,7 +16,7 @@ dotenv.config();                  // Laddar in .env-filen så att.env och PORT f
 
 const app = express();            // Skapar en ny Express-applikation.
 
-app.use(cors())                     //Den här aktiverar CORS för alla rutter.
+app.use(cors());                     //Den här aktiverar CORS för alla rutter.
 app.use(express.json());          //Lägger till en middleware som gör att Express kan läsa JSON i inkommande request-body.
 
 const port = process.env.PORT || 3030;   // Hämtar portnumret från .env.
@@ -35,10 +35,18 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
 const startServer = async () => { // Denna funktion som starta servern och seed:a databaserna.
+
+  try { 
+    await seedDatabase();  
+    await seedCompanyInfo(); 
+    console.log("Databaserna är seedade, startar servern..."); 
+         
+=======
   try {
     await seedDatabase();
     await seedCompanyInfo();
     console.log("Databaserna är seedade, startar servern...");
+
 
 
 
